@@ -5,11 +5,14 @@ export const createProject=(project)=>{
     return(dispatch,getState,{getFirebase, getFirestore})=>{
         //asynchronous call to database
        // const firestore= getFirestore();
+       const profile= getState().firebase.profile;
+       const authorId=getState().firebase.auth.uid;
         firestore.collection('projects').add({
             ...project,
-            authorFirstName:'dash',
-            authorLastName:'cash',
-            authorId:'2525',
+            //display correct user info when new project created when logged in
+            authorFirstName:profile.firstName, 
+            authorLastName:profile.lastName,
+            authorId:authorId,
             createdAt: new Date()
 
         }).then(()=> { //go off when task complete

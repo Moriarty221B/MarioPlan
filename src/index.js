@@ -13,7 +13,8 @@ import fbConfig from './config/fbConfig'
 
 //create redux store and interact with database
 const store = createStore(rootReducer,
-    compose( applyMiddleware(thunk.withExtraArgument({getFirebase,getFirestore})),reactReduxFirebase(fbConfig, {attachAuthIsReady:true}),reduxFirestore(fbConfig))
+    //use firestore to sync to profile object
+    compose( applyMiddleware(thunk.withExtraArgument({getFirebase,getFirestore})),reactReduxFirebase(fbConfig, {useFirestoreForProfile:true, userProfile:'users' ,attachAuthIsReady:true}),reduxFirestore(fbConfig))
     );
 
 store.firebaseAuthIsReady.then(() =>{
@@ -25,3 +26,4 @@ ReactDOM.render(<Provider store ={store}><App /></Provider>, document.getElement
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
 })
+
